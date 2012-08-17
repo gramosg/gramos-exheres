@@ -1,0 +1,48 @@
+# Copyright 2012 Guillermo Ramos
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'clojure-1.4.0.ebuild' from Gentoo, which is:
+#     Copyright 1999-2012 Gentoo Foundation
+
+require ant
+
+SUMMARY="Clojure is a dynamic programming language that targets the Java Virtual Machine"
+HOMEPAGE="http://clojure.org/"
+DOWNLOADS="https://github.com/clojure/clojure/tarball/${PNV} -> ${PNV}.tar.gz"
+
+LICENCES="EPL-1.0"
+PLATFORMS="amd64 x86"
+SLOT="1.4"
+
+DEPENDENCIES="
+    build:
+        virtual/jdk[>=1.5]
+    run:
+        virtual/jre[>=1.5]
+"
+
+
+SHORT_PNV=${PN}-${SLOT}
+
+WORK=${WORKBASE}/clojure-clojure-8306949
+
+ANT_SRC_COMPILE_PARAMS=( jar )
+ANT_SRC_TEST_PARAMS=( test )
+
+
+src_prepare() { :; }
+
+src_install() {
+    edo mv ${PNV}.jar ${PN}.jar
+
+    insinto /usr/share/${SHORT_PNV}
+    doins ${PN}.jar
+
+    exeinto /usr/bin/
+    doexe ${FILES}/${SHORT_PNV}
+
+    # Is this ethical?
+    dosym /usr/bin/${SHORT_PNV} /usr/bin/${PN}
+
+    dodoc changes.md readme.txt
+}
+

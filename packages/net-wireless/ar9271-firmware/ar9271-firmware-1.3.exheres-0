@@ -1,0 +1,33 @@
+# Copyright 2012 Guillermo Ramos
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'ar9271-firmware-1.3.ebuild' from Gentoo, which is:
+#     Copyright 1999-2011 Gentoo Foundation
+
+FIRMWARE_NAME="htc_9271.fw"
+
+SUMMARY="Atheros firmware for AR9271 (ath9k_htc module)"
+HOMEPAGE="http://linuxwireless.org/en/users/Drivers/ath9k_htc"
+DOWNLOADS="http://linuxwireless.org/download/htc_fw/${PV}/${FIRMWARE_NAME} -> ${PNV}-${FIRMWARE_NAME}
+	http://linuxwireless.org/download/htc_fw/${PV}/Changelog -> ${PNV}.Changelog"
+
+LICENCES="GPL-2"
+PLATFORMS="~amd64 ~arm ~x86"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+"
+
+WORK="${WORKBASE}"
+
+src_prepare() {
+    edo cp "${FETCHEDDIR}"/${PNV}-${FIRMWARE_NAME} "${WORK}"/${FIRMWARE_NAME}
+    edo cp "${FETCHEDDIR}"/${PNV}.Changelog "${WORK}"/Changelog
+}
+
+src_install() {
+    insinto $(canonicalise /lib/firmware)
+    doins "${FIRMWARE_NAME}"
+    default
+}
+
