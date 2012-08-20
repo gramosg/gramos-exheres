@@ -1,0 +1,8 @@
+[Unit]
+Description=Advanced configuration of Razer mice (DeathAdder, Krait, Lachesis)
+
+[Service]
+ExecStart=/usr/sbin/razerd
+
+[Install]
+WantedBy=multi-user.target

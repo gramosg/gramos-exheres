@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Razer Config
+Exec=/usr/bin/qrazercfg
+Terminal=false
+Categories=Qt;Settings;
