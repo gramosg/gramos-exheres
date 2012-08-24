@@ -9,8 +9,8 @@ SUMMARY="Utility for advanced configuration of Razer mice (DeathAdder, Krait, La
 HOMEPAGE="http://bues.ch/cms/hacking/razercfg.html"
 DOWNLOADS="http://bues.ch/${PN}/${PNV}.tar.bz2"
 
-PLATFORMS="~amd64 ~x86"
 LICENCES="GPL-2"
+PLATFORMS="~amd64 ~x86"
 SLOT="0"
 MYOPTIONS="pm-utils qt4"
 

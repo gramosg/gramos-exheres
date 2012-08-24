@@ -12,6 +12,7 @@ DOWNLOADS="https://github.com/clojure/clojure/tarball/${PNV} -> ${PNV}.tar.gz"
 LICENCES="EPL-1.0"
 PLATFORMS="amd64 x86"
 SLOT="1.4"
+MYOPTIONS=""
 
 DEPENDENCIES="
     build:
@@ -20,14 +21,11 @@ DEPENDENCIES="
         virtual/jre[>=1.5]
 "
 
-
-SHORT_PNV=${PN}-${SLOT}
-
 WORK=${WORKBASE}/clojure-clojure-8306949
+SHORT_PNV=${PN}-${SLOT}
 
 ANT_SRC_COMPILE_PARAMS=( jar )
 ANT_SRC_TEST_PARAMS=( test )
-
 
 src_prepare() { :; }
 
