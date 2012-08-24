@@ -9,8 +9,8 @@ SUMMARY="Utility for advanced configuration of Razer mice (DeathAdder, Krait, La
 HOMEPAGE="http://bues.ch/cms/hacking/razercfg.html"
 DOWNLOADS="http://bues.ch/${PN}/${PNV}.tar.bz2"
 
-LICENCES="GPL-2"
 PLATFORMS="~amd64 ~x86"
+LICENCES="GPL-2"
 SLOT="0"
 MYOPTIONS="pm-utils qt4"
 
@@ -21,7 +21,12 @@ DEPENDENCIES="
         qt4? ( dev-python/PyQt4 )
 "
 
+BUGS_TO="Michael Büsch <m@bues.ch>"
+
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/${PNV}-freq.patch )
+
 src_prepare() {
+    default
     edo sed -i \
             -e '/ldconfig/{N;d}' \
             -e "s:/etc/udev/rules.d/:/${LIBDIR}/udev/rules.d/:" \
