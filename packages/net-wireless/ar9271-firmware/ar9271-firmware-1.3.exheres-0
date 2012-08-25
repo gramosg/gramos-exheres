@@ -7,8 +7,8 @@ FIRMWARE_NAME="htc_9271.fw"
 
 SUMMARY="Atheros firmware for AR9271 (ath9k_htc module)"
 HOMEPAGE="http://linuxwireless.org/en/users/Drivers/ath9k_htc"
-DOWNLOADS="http://linuxwireless.org/download/htc_fw/${PV}/${FIRMWARE_NAME}
-	http://linuxwireless.org/download/htc_fw/${PV}/Changelog"
+DOWNLOADS="http://linuxwireless.org/download/htc_fw/${PV}/${FIRMWARE_NAME} -> ${PNV}-${FIRMWARE_NAME}
+	http://linuxwireless.org/download/htc_fw/${PV}/Changelog -> ${PNV}.Changelog"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -20,8 +20,8 @@ DEPENDENCIES=""
 WORK="${WORKBASE}"
 
 src_prepare() {
-    edo cp "${FETCHEDDIR}"/${FIRMWARE_NAME} "${WORK}"/${FIRMWARE_NAME}
-    edo cp "${FETCHEDDIR}"/Changelog "${WORK}"/Changelog
+    edo cp "${FETCHEDDIR}"/${PNV}-${FIRMWARE_NAME} "${WORK}"/${FIRMWARE_NAME}
+    edo cp "${FETCHEDDIR}"/${PNV}.Changelog "${WORK}"/Changelog
 }
 
 src_install() {
