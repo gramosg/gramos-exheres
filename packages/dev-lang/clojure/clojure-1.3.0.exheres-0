@@ -1,10 +1,10 @@
 # Copyright 2012 Guillermo Ramos
 # Distributed under the terms of the GNU General Public License v2
 
-MY_MAGIC=8306949
+MY_MAGIC=6375f36
 
 require clojure
 
 PLATFORMS="amd64 x86"
-SLOT="1.4"
+SLOT="1.3"
 

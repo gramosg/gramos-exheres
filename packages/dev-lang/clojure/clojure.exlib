@@ -1,0 +1,47 @@
+# Copyright 2012 Guillermo Ramos
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'clojure-1.4.0.ebuild' from Gentoo, which is:
+#     Copyright 1999-2012 Gentoo Foundation
+
+require alternatives ant
+
+SUMMARY="Clojure is a dynamic programming language that targets the Java Virtual Machine"
+HOMEPAGE="http://clojure.org/"
+DOWNLOADS="https://github.com/clojure/clojure/tarball/${PNV} -> ${PNV}.tar.gz"
+
+LICENCES="EPL-1.0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        virtual/jdk[>=1.5]
+    run:
+        virtual/jre[>=1.5]
+"
+
+PNS=${PN}-${SLOT}
+WORK=${WORKBASE}/clojure-clojure-${MY_MAGIC}
+
+ANT_SRC_COMPILE_PARAMS=( jar )
+ANT_SRC_TEST_PARAMS=( test )
+
+src_prepare() { :; }
+
+src_install() {
+    edo mv ${PNV}.jar ${PN}.jar
+    insinto /usr/share/${PNS}
+    doins ${PN}.jar
+
+    cat >${PNS} <<EOF
+#!/bin/sh
+java -cp /usr/share/${PNS}/clojure.jar clojure.main "\$@"
+EOF
+    exeinto /usr/bin/
+    doexe ${PNS}
+
+    alternatives_for ${PN} ${SLOT} 0 \
+        "/usr/bin/${PN}" "${PNS}"
+
+    emagicdocs
+}
+
