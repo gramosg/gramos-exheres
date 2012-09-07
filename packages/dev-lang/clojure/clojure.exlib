@@ -27,6 +27,11 @@ ANT_SRC_TEST_PARAMS=( test )
 
 src_prepare() { :; }
 
+src_test() {
+    esandbox disable_net
+    ant_src_test
+}
+
 src_install() {
     edo mv ${PNV}.jar ${PN}.jar
     insinto /usr/share/${PNS}
@@ -44,4 +49,6 @@ EOF
 
     emagicdocs
 }
+
+BUGS_TO="0xwille@gmail.com"
 
