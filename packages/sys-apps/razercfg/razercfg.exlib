@@ -9,10 +9,12 @@ SUMMARY="Utility for advanced configuration of Razer mice (DeathAdder, Krait, La
 HOMEPAGE="http://bues.ch/cms/hacking/razercfg.html"
 DOWNLOADS="http://bues.ch/${PN}/${PNV}.tar.bz2"
 
-PLATFORMS="~amd64 ~x86"
 LICENCES="GPL-2"
-SLOT="0"
-MYOPTIONS="pm-utils qt4"
+MYOPTIONS="
+    baselayout
+    pm-utils [[ description = [ Add hibernate/resume support ] ]]
+    qt4 [[ description = [ Install graphical configuration tool (qrazercfg) ] ]]
+"
 
 DEPENDENCIES="
     build+run:
@@ -21,21 +23,18 @@ DEPENDENCIES="
         qt4? ( dev-python/PyQt4 )
 "
 
-BUGS_TO="Michael Büsch <m@bues.ch>"
-
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/${PNV}-freq.patch )
-
 src_prepare() {
-    default
     edo sed -i \
             -e '/ldconfig/{N;d}' \
-            -e "s:/etc/udev/rules.d/:/${LIBDIR}/udev/rules.d/:" \
+            -e "s:/etc/udev/rules.d/:/usr/${LIBDIR}/udev/rules.d/:" \
             -e "s:/etc/pm/sleep.d:/usr/${LIBDIR}/pm-utils/sleep.d/:" \
             -e '/udevadm control/{N;d}' \
             -e 's:01-razer-udev.rules:40-razercfg.rules:' \
             -e 's:50-razer:80razer:' \
             librazer/CMakeLists.txt
 }
+
+DEFAULT_SRC_INSTALL_EXTRA_DOCS=( razer.conf )
 
 src_install() {
     edo sed -i \
@@ -44,23 +43,20 @@ src_install() {
     cmake_src_install
 
     install_systemd_files
-    newinitd "${FILES}"/razerd.init.d razerd
-
-    dodoc README razer.conf
-
-    if ! option qt4; then
-        rm "${IMAGE}"/usr/bin/qrazercfg
-    else
+    option baselayout && newinitd "${FILES}"/razerd.init.d razerd
+    option pm-utils || edo rm -r "${IMAGE}"/usr/"${LIBDIR}"/pm-utils
+    if option qt4; then
         insinto /usr/share/applications
         doins "${FILES}"/qrazercfg.desktop
-    fi
-
-    if ! option pm-utils; then
-        rm "${IMAGE}"/"${LIBDIR}"/pm-utils/sleep.d/80razer
+    else
+        edo rm "${IMAGE}"/usr/bin/qrazercfg
     fi
 }
 
 pkg_postinst() {
-    udevadm control --reload-rules && udevadm trigger --subsystem-match=usb
+    esandbox allow_net --connect 'unix:/run/udev/control'
+    nonfatal edo udevadm control --reload-rules && udevadm trigger --subsystem-match=usb
 }
+
+BUGS_TO="0xwille@gmail.com"
 

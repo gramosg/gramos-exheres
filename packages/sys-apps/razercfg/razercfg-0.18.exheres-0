@@ -1,63 +1,8 @@
 # Copyright 2012 Guillermo Ramos
 # Distributed under the terms of the GNU General Public License v2
-# Based in part upon 'razercfg-0.17.ebuild' from Gentoo, which is:
-#     Copyright 1999-2012 Gentoo Foundation
 
-require cmake [ api=2 out_of_source=false ] systemd-service
+require razercfg
 
-SUMMARY="Utility for advanced configuration of Razer mice (DeathAdder, Krait, Lachesis)"
-HOMEPAGE="http://bues.ch/cms/hacking/razercfg.html"
-DOWNLOADS="http://bues.ch/${PN}/${PNV}.tar.bz2"
-
-LICENCES="GPL-2"
 PLATFORMS="~amd64 ~x86"
 SLOT="0"
-MYOPTIONS="pm-utils qt4"
-
-DEPENDENCIES="
-    build+run:
-        dev-lang/python
-        pm-utils? ( sys-power/pm-utils )
-        qt4? ( dev-python/PyQt4 )
-"
-
-BUGS_TO="Michael Büsch <m@bues.ch>"
-
-src_prepare() {
-    edo sed -i \
-            -e '/ldconfig/{N;d}' \
-            -e "s:/etc/udev/rules.d/:/${LIBDIR}/udev/rules.d/:" \
-            -e "s:/etc/pm/sleep.d:/usr/${LIBDIR}/pm-utils/sleep.d/:" \
-            -e '/udevadm control/{N;d}' \
-            -e 's:01-razer-udev.rules:40-razercfg.rules:' \
-            -e 's:50-razer:80razer:' \
-            librazer/CMakeLists.txt
-}
-
-src_install() {
-    edo sed -i \
-            -e "s:\${CMAKE_INSTALL_PREFIX}/lib:\${CMAKE_INSTALL_PREFIX}/${LIBDIR}:" \
-            librazer/cmake_install.cmake
-    cmake_src_install
-
-    install_systemd_files
-    newinitd "${FILES}"/razerd.init.d razerd
-
-    dodoc README razer.conf
-
-    if ! option qt4; then
-        rm "${IMAGE}"/usr/bin/qrazercfg
-    else
-        insinto /usr/share/applications
-        doins "${FILES}"/qrazercfg.desktop
-    fi
-
-    if ! option pm-utils; then
-        rm "${IMAGE}"/"${LIBDIR}"/pm-utils/sleep.d/80razer
-    fi
-}
-
-pkg_postinst() {
-    udevadm control --reload-rules && udevadm trigger --subsystem-match=usb
-}
 
