@@ -33,19 +33,17 @@ src_test() {
 }
 
 src_install() {
-    edo mv ${PNV}.jar ${PN}.jar
     insinto /usr/share/${PNS}
-    doins ${PN}.jar
+    doins ${PNV}.jar
 
     cat >${PNS} <<EOF
 #!/bin/sh
-java -cp /usr/share/${PNS}/clojure.jar clojure.main "\$@"
+java -cp /usr/share/${PNS}/${PNV}.jar clojure.main "\$@"
 EOF
     exeinto /usr/bin/
     doexe ${PNS}
 
-    alternatives_for ${PN} ${SLOT} 0 \
-        "/usr/bin/${PN}" "${PNS}"
+    alternatives_for ${PN} ${SLOT} 0 "/usr/bin/${PN}" "${PNS}"
 
     emagicdocs
 }
