@@ -1,0 +1,29 @@
+# Copyright 2012 Guillermo Ramos
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'clojure-1.4.0.ebuild' from Gentoo, which is:
+#     Copyright 1999-2012 Gentoo Foundation
+
+SUMMARY="View and edit files in hex or ASCII"
+HOMEPAGE="http://rigaux.org/hexedit.html"
+DOWNLOADS="http://rigaux.org/${PNV}.src.tgz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        sys-libs/ncurses
+"
+
+BUGS_TO="0xwille@gmail.com"
+
+WORK="${WORKBASE}/${PN}"
+
+src_install() {
+    dobin hexedit
+    doman hexedit.1
+    emagicdocs
+}
+
