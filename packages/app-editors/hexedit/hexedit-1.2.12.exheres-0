@@ -1,7 +1,7 @@
 # Copyright 2012 Guillermo Ramos
 # Distributed under the terms of the GNU General Public License v2
-# Based in part upon 'clojure-1.4.0.ebuild' from Gentoo, which is:
-#     Copyright 1999-2012 Gentoo Foundation
+# Based in part upon 'hexedit-1.2.12.ebuild' from Gentoo, which is:
+#     Copyright 1999-2011 Gentoo Foundation
 
 SUMMARY="View and edit files in hex or ASCII"
 HOMEPAGE="http://rigaux.org/hexedit.html"
