@@ -40,8 +40,7 @@ src_install() {
 #!/bin/sh
 java -cp /usr/share/${PNS}/${PNV}.jar clojure.main "\$@"
 EOF
-    exeinto /usr/bin/
-    doexe ${PNS}
+    dobin ${PNS}
 
     alternatives_for ${PN} ${SLOT} 0 "/usr/bin/${PN}" "${PNS}"
 
